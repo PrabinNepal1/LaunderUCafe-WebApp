@@ -1,0 +1,26 @@
+/* === Import Bootstrap functions and variables === */
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+/*-------------------------------------------------------------------*/
+/* Change theme-colors */
+$theme-colors: (
+                primary: #234d7b,
+                secondary: #3b3c3e,
+                success: #1e6111,
+                info:  #64c3d2,
+                warning: #f5e74a,
+                danger: #820410
+                );
+
+  $card: (
+              border: none;
+              box-shadow: 0 1px 20px 0 rgba(0,0,0,.2);
+            );
+
+$Container: (
+                  minHeight: "100vh";
+              );
+/*-------------------------------------------------------------------*/
+/* === Boostrap Main SCSS === */
+@import "node_modules/bootstrap/scss/bootstrap";
+/*-------------------------------------------------------------------*/
