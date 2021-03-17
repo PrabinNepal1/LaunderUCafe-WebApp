@@ -10,11 +10,11 @@ import * as yup from 'yup';
 const schema = yup.object().shape({
   firstname: yup
   .string()
-  .matches(/^([^0-9]*)$/, "First name should not contain numbers.")
+  .matches(/^([A-Za-z ]*)$/, "First name should not contain numbers or symbols.")
   .required("First name is required field"),
   lastname: yup
   .string()
-  .matches(/^([^0-9]*)$/, "Last name should not contain numbers.")
+  .matches(/^([A-Za-z ]*)$/, "Last name should not contain numbers or symbols.")
   .required("Last name is required field"),
   email: yup
   .string()

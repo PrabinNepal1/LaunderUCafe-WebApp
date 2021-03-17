@@ -11,6 +11,7 @@ function Login(){
   const resetEmailRef = useRef()
   const {login, resetPassword} = useAuth()
   const [error, setError] = useState('')
+  const [error1, setError1] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const history = useHistory()
@@ -38,13 +39,13 @@ function Login(){
 
     try{
       setMessage("")
-      setError("")
+      setError1("")
       setLoading(true)
-      await resetPassword(emailRef.current.value)
+      await resetPassword(resetEmailRef.current.value)
       setMessage('Further Instruction to reset your account has been sent to inbox.')
     }
    catch{
-      setError('Failed to reset password!')
+      setError1('Failed to reset password!')
    }
     setLoading(false)
   }
@@ -89,7 +90,7 @@ function Login(){
           <Modal.Title>Reset Your Password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        {error && <Alert variant="success">{error}</Alert>}
+        {error1 && <Alert variant="danger">{error1}</Alert>}
         {message && <Alert variant="success">{message}</Alert>}
         <Form onSubmit={handleResetSubmit}>
             <Form.Group controlId="formBasicEmail">

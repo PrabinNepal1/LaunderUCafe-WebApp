@@ -24,7 +24,7 @@ function logout(){
 }
 
 function resetPassword(email){
-  return auth.sendPassworResetEmail(email)
+  return auth.sendPasswordResetEmail(email)
 }
 
 function updatePassword(password){
