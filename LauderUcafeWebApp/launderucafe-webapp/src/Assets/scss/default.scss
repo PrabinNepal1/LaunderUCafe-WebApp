@@ -1,30 +1,4 @@
-/* === Import Bootstrap functions and variables === */
-@import "node_modules/bootstrap/scss/functions";
-@import "node_modules/bootstrap/scss/variables";
-/*-------------------------------------------------------------------*/
-/* Change theme-colors */
-$theme-colors: (
-                primary: #234d7b,
-                secondary: #3b3c3e,
-                success: #1e6111,
-                info:  #64c3d2,
-                warning: #f5e74a,
-                danger: #820410
-                );
-
-  $card: (
-          box-shadow: 0 1px 20px 0 rgba(0,0,0,.2)
-          );
-
-$Container: (
-                  minHeight: "100vh"
-              );
-/*-------------------------------------------------------------------*/
-/* === Boostrap Main SCSS === */
-@import "node_modules/bootstrap/scss/bootstrap";
-/*-------------------------------------------------------------------*/
-
-#foodItemHeader{
+#ItemHeader{
   margin-bottom:10px;
   width:30%;
   background-color:#212529;
@@ -36,44 +10,46 @@ $Container: (
   text-transform: uppercase;
   color: White;
 }
-#foodItemImage{
-  width:50%;
+#ItemHolder{
+    width:100%;
+
+}
+#ItemImage{
+  float:left;
+  width:20%;
   height:150px;
   background-color: #A9A9A9;
   border-radius: 10px;
   margin-bottom:10px;
 }
-#foodItemImage img{
+#ItemImage img{
   width:100%;
   height:100%;
   border-radius: 10px;
 }
 
-#foodItemDetails{
-  position: absolute;
-  top: 60px;
-  right:10px;
-  width:48%;
-  height:150px;
+#ItemDetails{
+  float:right;
+  width:80%;
   padding:2%;
-  background-color: #212529;
+  background-color: White;
   border-radius: 10px;
   margin-bottom:10px;
-  text-align: justify;
-  letter-spacing: 3px;
-  color:White;
+  text-align: left;
+  letter-spacing: 2px;
+  color:Black;
 }
-#foodItemShop{
+#ItemShop{
   position: absolute;
-  right:10px;
-  width:48%;
+  right:20px;
+  width:45%;
   height:50px;
   border-radius: 10px;
   background-color: #212529;
   text-align:right;
 }
 
-#foodItemCost{
+#ItemCost{
   width:50%;
   margin-top:2%;
   float:left;
@@ -81,10 +57,9 @@ $Container: (
   font-weight: bold;
   font-family: "Papyrus", "Copperplate", "Fantasy";
   color:White;
-  padding:auto;
 }
 
-#foodCartButton{
+#CartButton{
   width:47%;
   text-align:right;
   font-size:24px;
@@ -96,13 +71,12 @@ $Container: (
 
 @media only screen and (max-width:500px) {
   /* For mobile phones: */
-  #foodItemHeader, #foodItemImage, #foodItemDetails, #foodItemShop {
+  #ItemHeader, #ItemImage, #ItemDetails, #ItemShop {
     width: 100%;
     position: inherit;
   }
-  #foodItemShop {
+  #ItemShop {
     width:100%;
-    margin-left:10px;
 
   }
 }
@@ -136,13 +110,13 @@ $Container: (
 }
 
 .cart-container .cart-card .cart-img {
-    width: 150px;
-    height: 120px;
+    width: 80px;
+    height: 50px;
 }
 
 @media(max-width: 768px) {
     .cart-container .cart-card .cart-img {
-        width: 90%;
+        width: 40%;
         height: auto;
     }
 }
@@ -183,6 +157,15 @@ $Container: (
         text-align: center;
         margin-top: 4px;
     }
+
+    .delete-btn {
+        margin-top: 4px;
+    }
+
+    .inc,
+    .dec {
+        margin-top: 4px;
+    }
 }
 
 .delete-btn {
@@ -197,17 +180,6 @@ $Container: (
   .dec {
       cursor: pointer;
     }
-
-@media(max-width: 768px) {
-    .delete-btn {
-        margin-top: 4px;
-    }
-
-    .inc,
-    .dec {
-        margin-top: 4px;
-    }
-}
 
 //cart summary
 .cashout-link {
@@ -233,4 +205,201 @@ $Container: (
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+}
+
+.no-of-products{
+    background: #f57224;
+    padding-right:5px;
+    padding-left:5px;
+    position:relative;
+    top:-17px;
+    right:5px;
+    font-size: 10px;
+    font-weight: 600;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+.result-message {
+  line-height: 22px;
+  font-size: 16px;
+}
+
+.result-message a {
+  color: rgb(89, 111, 214);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
+}
+
+#card-error {
+  color: rgb(105, 115, 134);
+  font-size: 16px;
+  line-height: 20px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+#card-element {
+  border-radius: 4px 4px 0 0;
+  padding: 12px;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  max-height: 44px;
+  width: 100%;
+  background: white;
+  box-sizing: border-box;
+}
+
+/* Buttons and links */
+
+button:hover {
+  filter: contrast(115%);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* spinner/processing state, errors */
+.spinner,
+.spinner:before,
+.spinner:after {
+  border-radius: 50%;
+}
+
+.spinner {
+  color: #ffffff;
+  font-size: 22px;
+  text-indent: -99999px;
+  margin: 0px auto;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-shadow: inset 0 0 0 2px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.spinner:before,
+.spinner:after {
+  position: absolute;
+  content: "";
+}
+
+.spinner:before {
+  width: 10.4px;
+  height: 20.4px;
+  background: #5469d4;
+  border-radius: 20.4px 0 0 20.4px;
+  top: -0.2px;
+  left: -0.2px;
+  -webkit-transform-origin: 10.4px 10.2px;
+  transform-origin: 10.4px 10.2px;
+  -webkit-animation: loading 2s infinite ease 1.5s;
+  animation: loading 2s infinite ease 1.5s;
+}
+
+.spinner:after {
+  width: 10.4px;
+  height: 10.2px;
+  background: #5469d4;
+  border-radius: 0 10.2px 10.2px 0;
+  top: -0.1px;
+  left: 10.2px;
+  -webkit-transform-origin: 0px 10.2px;
+  transform-origin: 0px 10.2px;
+  -webkit-animation: loading 2s infinite ease;
+  animation: loading 2s infinite ease;
+}
+
+@keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  form {
+    width: 80vw;
+  }
+}
+
+.customAddItem{
+  background-color: blueviolet !important;
+  border: #fff !important;
+  border-radius: 10%;
+}
+
+//laundryServices
+
+#laundryServices_block{
+  width:100%;
+  height:50px;
+  text-align: center;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+#schedule_container{
+  width:45%;
+  float:left;
+}
+
+#delieryAddress_container{
+  width:45%;
+  float:right;
+}
+
+//Toolbar
+.tool_bar {
+  display: inline-block;
+  width: 100%;
+  background-color: #212529;
+  height: auto;
+  margin: 0 auto;
+  padding: 0 10px;
+
+  ul, li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    float: right;
+
+    li {
+      display: inline-block;
+
+      a {
+        display: block;
+        text-decoration: none;
+        font-size: 1em;
+        line-height: 1;
+        color: white;
+        padding: 10px;
+        transition: all .4s ease-in-out;
+
+        &:hover {
+              text-decoration: none;
+              background-color: rgba(255,255,255,.6);
+              color: purple;
+              transition: all .4s ease-in-out;
+        }
+
+      }
+    }
+  }
+
 }

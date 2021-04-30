@@ -1,0 +1,248 @@
+/* === Import Bootstrap functions and variables === */
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+/*-------------------------------------------------------------------*/
+/* Change theme-colors */
+$theme-colors: (
+                primary: #234d7b,
+                secondary: #3b3c3e,
+                success: #1e6111,
+                info:  #64c3d2,
+                warning: #f5e74a,
+                danger: #820410
+                );
+
+  $card: (
+          box-shadow: 0 1px 20px 0 rgba(0,0,0,.2)
+          );
+
+$Container: (
+                  minHeight: "100vh"
+              );
+/*-------------------------------------------------------------------*/
+/* === Boostrap Main SCSS === */
+@import "node_modules/bootstrap/scss/bootstrap";
+/*-------------------------------------------------------------------*/
+
+#foodItemHeader{
+  margin-bottom:10px;
+  width:30%;
+  background-color:#212529;
+  padding:5px;
+  text-align:center;
+  font-size:24px;
+  font-weight: bold;
+  border-radius: 10px;
+  text-transform: uppercase;
+  color: White;
+}
+#foodItemImage{
+  width:50%;
+  height:150px;
+  background-color: #A9A9A9;
+  border-radius: 10px;
+  margin-bottom:10px;
+}
+#foodItemImage img{
+  width:100%;
+  height:100%;
+  border-radius: 10px;
+}
+
+#foodItemDetails{
+  position: absolute;
+  top: 60px;
+  right:10px;
+  width:48%;
+  height:150px;
+  padding:2%;
+  background-color: #212529;
+  border-radius: 10px;
+  margin-bottom:10px;
+  text-align: justify;
+  letter-spacing: 3px;
+  color:White;
+}
+#foodItemShop{
+  position: absolute;
+  right:10px;
+  width:48%;
+  height:50px;
+  border-radius: 10px;
+  background-color: #212529;
+  text-align:right;
+}
+
+#foodItemCost{
+  width:50%;
+  margin-top:2%;
+  float:left;
+  font-size:24px;
+  font-weight: bold;
+  font-family: "Papyrus", "Copperplate", "Fantasy";
+  color:White;
+  padding:auto;
+}
+
+#foodCartButton{
+  width:47%;
+  text-align:right;
+  font-size:24px;
+  margin-top:1%;
+  margin-right:3%;
+  font-weight: bold;
+  float:right;
+}
+
+@media only screen and (max-width:500px) {
+  /* For mobile phones: */
+  #foodItemHeader, #foodItemImage, #foodItemDetails, #foodItemShop {
+    width: 100%;
+    position: inherit;
+  }
+  #foodItemShop {
+    width:100%;
+    margin-left:10px;
+
+  }
+}
+
+/* cart */
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.cart-container .cart-card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+@media(max-width: 768px) {
+    .cart-container .cart-card {
+        flex-direction: column;
+        justify-content: center;
+        border-bottom: 1px solid #e4e4e4;
+    }
+}
+
+.cart-container .cart-card .cart-img {
+    width: 150px;
+    height: 120px;
+}
+
+@media(max-width: 768px) {
+    .cart-container .cart-card .cart-img {
+        width: 90%;
+        height: auto;
+    }
+}
+
+.cart-container .cart-card .cart-img img {
+    width: 100%;
+    height: 100%
+}
+
+.cart-container .cart-card .cart-name,
+.cart-container .cart-card .cart-price {
+    width: 150px;
+    margin-left: 20px;
+}
+
+@media(max-width: 768px) {
+
+    .cart-container .cart-card .cart-name,
+    .cart-container .cart-card .cart-price {
+        width: 90%;
+        margin-left: 0px;
+        text-align: center;
+        margin-top: 4px;
+    }
+}
+
+.cart-container .cart-card .cart-price-orignal {
+    width: 150px;
+    margin-left: 20px;
+    color: #f57224;
+}
+
+@media(max-width: 768px) {
+
+    .cart-container .cart-card .cart-price-orignal {
+        width: 90%;
+        margin-left: 0px;
+        text-align: center;
+        margin-top: 4px;
+    }
+
+    .delete-btn {
+        margin-top: 4px;
+    }
+
+    .inc,
+    .dec {
+        margin-top: 4px;
+    }
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: hidden;
+    outline: none;
+    cursor: pointer;
+    color: red;
+  }
+
+  .inc,
+  .dec {
+      cursor: pointer;
+    }
+
+//cart summary
+.cashout-link {
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000;
+}
+
+.cart-summary {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    border: 1px solid #e4e4e4;
+    width: 300px;
+}
+
+.cart-summary .cart-summary-heading {
+    border-bottom: 1px solid #f57224;
+}
+
+.cart-summary .cart-summary-price {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.no-of-products{
+    background: #f57224;
+    padding-right:5px;
+    padding-left:5px;
+    position:relative;
+    top:-17px;
+    right:5px;
+    font-size: 10px;
+    font-weight: 600;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}

@@ -1,7 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {firestore} from "../../firebase";
 import {Form, Button, Card, Container, Alert, Col, Modal, CardGroup} from 'react-bootstrap'
-  import {useAuth} from "../../contexts/AuthContext";
+import {useAuth} from "../../contexts/AuthContext";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useForm}  from "react-hook-form";
 import * as yup from 'yup';
@@ -30,7 +30,11 @@ const profileSchema = yup.object().shape({
   .string()
   .matches(/^([A-Za-z ]*)$/, "Last name should not contain numbers or symbols.")
   .required("Required"),
-  streetname:yup
+  phoneNo: yup
+  .string()
+  .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, "Phone number is not valid.")
+  .required("Required"),
+  address:yup
   .string()
   .required("Required"),
   cityname:yup
@@ -86,7 +90,7 @@ export default function UserPage() {
       resolver: yupResolver(profileSchema),
     })
 
-    const [userData, setUserData] = useState({firstname:'',lastname:'',streetname:'',cityname:'',statename:'',zip:''})
+    const [userData, setUserData] = useState({firstname:'',lastname:'', phoneNo:'', address:'',cityname:'',statename:'',zip:''})
 
 
     const handleInputChange = e => {
@@ -106,7 +110,8 @@ const onSubmitProfile = (data, e) =>{
         .update({
           firstname:userData.firstname,
           lastname:userData.lastname,
-          streetname:userData.streetname,
+          phoneNo:userData.phoneNo,
+          address:userData.address,
           cityname:userData.cityname,
           statename:userData.statename,
           zip:userData.zip
@@ -145,8 +150,9 @@ const onSubmitProfile = (data, e) =>{
         <Card.Body>
           <Card.Title><i className="fas fa-user"></i> {details.firstname} {details.lastname}</Card.Title>
             <Card.Title><i className="fas fa-envelope-open-text"></i> Your Email: {currentUser.email}</Card.Title>
+            <Card.Title><i className="fas fa-phone"></i> Your Phone No.: {details.phoneNo}</Card.Title>
             <Card.Title><i className="fas fa-map-marker-alt"></i> Your Address</Card.Title>
-              <Card.Title className="px-3 mx-3">Street: {details.streetname}</Card.Title>
+              <Card.Title className="px-3 mx-3">Address: {details.address}</Card.Title>
               <Card.Title className="px-3 mx-3">City: {details.cityname}</Card.Title>
               <Card.Title className="px-3 mx-3">State: {details.statename}</Card.Title>
               <Card.Title className="px-3 mx-3">Zip: {details.zip}</Card.Title>
@@ -199,9 +205,17 @@ const onSubmitProfile = (data, e) =>{
             </Form.Group>
           </Form.Row>
 
+          <Form.Group controlId="formGridPhoneNo">
+            <Form.Label>Phone No.</Form.Label>
+            <Form.Control placeholder="xxx-xxx-xxxx" name="phoneNo"
+            onChange = {handleInputChange}
+            ref={registerProfile}/>
+            <Form.Text className="text-danger" id="phoneNo" muted>{errorsProfile?.phoneNo?.message}</Form.Text>
+          </Form.Group>
+
           <Form.Group controlId="formGridAddress">
             <Form.Label>Address</Form.Label>
-            <Form.Control placeholder="Apartment, studio, or floor" name="streetname"
+            <Form.Control placeholder="Apartment, studio, or floor" name="address"
             onChange = {handleInputChange}
             ref={registerProfile}/>
             <Form.Text className="text-danger" id="streetname" muted>{errorsProfile?.streetname?.message}</Form.Text>

@@ -42,15 +42,17 @@ export default function Signup() {
 
     const emailRef = useRef()
     const passwordRef = useRef()
+    const [uid, setUid] = useState()
     const [firstname, setFirstName] = useState()
     const [lastname, setLastName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
-    const [streetname, setStreetName] = useState()
-    const [cityname, setCityName] = useState()
-    const [statename, setStateName] = useState()
-    const [zip, setZip] = useState()
+    const [phoneNo, setPhoneNo] = useState("N/A")
+    const [address, setAddress] = useState("N/A")
+    const [cityname, setCityName] = useState("N/A")
+    const [statename, setStateName] = useState("N/A")
+    const [zip, setZip] = useState("N/A")
     const {signup} = useAuth()
     const [failed, setFailed] = useState()
     const [loading, setLoading] = useState(false)
@@ -60,24 +62,23 @@ export default function Signup() {
     const onSubmit = (data) => {
 
       try{
-        setStreetName("N/A")
-        setCityName("N/A")
-        setStateName("N/A")
-        setZip("N/A")
         setLoading(true)
         signup(emailRef.current.value, passwordRef.current.value).then(cred => {
           return firestore
             .collection("users")
             .doc(cred.user.uid)
             .set({
+              uid: cred.user.uid,
               firstname,
               lastname,
-              streetname,
+              phoneNo,
+              address,
               cityname,
               statename,
               zip
             })
             .then(() => {
+              setUid('')
               setFirstName('')
               setLastName('')
               setEmail('')

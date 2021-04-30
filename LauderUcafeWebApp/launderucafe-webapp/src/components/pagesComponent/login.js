@@ -21,16 +21,15 @@ function Login(){
 
   async function handleSubmit(event){
     event.preventDefault()
-
-    try{
       setError("")
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
-      history.push("/")
-    }
-   catch{
-      setError('Failed to login!')
-   }
+      .then(() => {
+          history.push("/")
+        })
+    .catch( error => {
+      setError(error.message);
+    })
     setLoading(false)
   }
 
@@ -97,7 +96,7 @@ function Login(){
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" required placeholder="Enter your email" ref={resetEmailRef} />
             </Form.Group>
-            <Button disabled={loading} className="w-100" variant="primary" type="submit">
+            <Button disabled={loading} className="w-100 mt-3" variant="primary" type="submit">
               Submit
             </Button>
           </Form>
