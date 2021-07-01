@@ -32,7 +32,8 @@ export default function Cart() {
       {
         shoppingCart.length === 0 && <>
               <div>No items in your cart!</div>
-              <div><Link to="/">Return to Home page</Link></div>
+              <div><Link to="/">Return to Home page</Link>y</div>
+
             </>
             }
             {shoppingCart && shoppingCart.map(cart => (
@@ -57,7 +58,7 @@ export default function Cart() {
                     </div>
 
                     <div className='cart-price'>
-                        $ {cart.totalProductPrice}
+                        $ {cart.totalProductPrice.toFixed(2)}
                     </div>
 
                     <div className='delete-btn' onClick={() => dispatch({ type: 'DELETE', id: cart.id, cart })}>
@@ -72,7 +73,7 @@ export default function Cart() {
                 </div>
                 <div className='cart-summary-price'>
                     <span>Total Price</span>
-                    <span>{totalPrice}</span>
+                    <span>{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className='cart-summary-price'>
                     <span>Total Qty</span>

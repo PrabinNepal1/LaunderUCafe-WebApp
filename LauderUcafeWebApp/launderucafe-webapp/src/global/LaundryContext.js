@@ -14,7 +14,6 @@ export const LaundryContextProvider = (props) => {
 
         useEffect(() => {
           if (currentUser) {
-              if(cart.laundryCart.length > 0){
                   firestore
                         .collection("LaundryCart")
                         .doc(currentUser.uid)
@@ -24,7 +23,7 @@ export const LaundryContextProvider = (props) => {
                           TotalCartPrice: cart.totalLaundryPrice
                         },{merge:true})
                       localStorage.setItem("LaundryCart", JSON.stringify(cart));
-                    }
+
                 }
               },[cart])
 

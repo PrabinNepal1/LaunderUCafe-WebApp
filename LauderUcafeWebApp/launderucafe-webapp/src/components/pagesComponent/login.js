@@ -51,7 +51,7 @@ function Login(){
 
 
     return (
-    <Container className="d -flex align-items-center justify-our-content mt-5">
+    <Container className="d -flex align-items-center justify-our-content mt-5 mb-5">
     <div className="w-responsive mx-auto p-3 mt-2">
     <Card>
       <Card.Body>
@@ -96,7 +96,8 @@ function Login(){
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" required placeholder="Enter your email" ref={resetEmailRef} />
             </Form.Group>
-            <Button disabled={loading} className="w-100 mt-3" variant="primary" type="submit">
+
+            <Button disabled={loading} className="w-100 mt-2" variant="primary" type="submit">
               Submit
             </Button>
           </Form>

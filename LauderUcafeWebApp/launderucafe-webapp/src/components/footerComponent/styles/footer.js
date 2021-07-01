@@ -2,11 +2,9 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 80px 60px;
-  margin-top:80px;
-  background: #212529;
+  background: #363a3f;
   @media (max-width: 1000px) {
     padding: 70px 30px;
-    margin-top:80px;
   }
 `;
 
@@ -41,7 +39,7 @@ export const Link = styled.a`
   font-size: 18px;
   text-decoration: none;
   &:hover {
-      color: #ff9c00;
+      color: blueviolet;
       transition: 200ms ease-in;
   }
 `;

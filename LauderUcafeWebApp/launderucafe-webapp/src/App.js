@@ -6,6 +6,7 @@ import {
   Switch
 } from 'react-router-dom';
 import './Assets/css/default.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //components
 import Header from './components/headerComponent/header';
@@ -13,6 +14,7 @@ import Homepage from './components/pagesComponent/homepage';
 import Login from './components/pagesComponent/login';
 import Signup from './components/pagesComponent/signup';
 import UserPage from './components/pagesComponent/userpage';
+import ContactUs from './components/pagesComponent/contactUs';
 import {AuthProvider} from "./contexts/AuthContext";
 import {CartContextProvider} from "./global/CartContext";
 import {LaundryContextProvider} from "./global/LaundryContext";
@@ -31,6 +33,7 @@ import { FooterContainer } from './containers/footer'
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
+//stripe promise
 const promise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 
@@ -43,7 +46,7 @@ function App (){
       <LaundryContextProvider>
       <Toolbar/>
       <Switch>
-        <div className="App">
+        <>
           <Header/>
           <Route exact path='/' component={Homepage}/>
           <Route exact path='/login' component={Login}/>
@@ -51,6 +54,7 @@ function App (){
           <PrivateRoute exact path='/userpage' component={UserPage}/>
           <Route exact path='/cafe' component={Cafe}/>
           <Route exact path='/laundry' component={Laundry}/>
+          <Route exact path='/contactUs' component={ContactUs}/>
           <PrivateRoute exact path='/cart' component={Cart}/>
           <PrivateRoute exact path='/laundryCart' component={LaundryCart}/>
           <Elements stripe={promise}>
@@ -60,7 +64,7 @@ function App (){
           </Elements>
           <FooterContainer />
 
-        </div>
+        </>
       </Switch>
       </LaundryContextProvider>
       </CartContextProvider>

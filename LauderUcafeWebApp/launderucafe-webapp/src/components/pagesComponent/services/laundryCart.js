@@ -12,31 +12,41 @@ import {firestore} from "../../../firebase";
 
 export default function LaundryCart() {
 
-        const {currentUser} = useAuth()
+    function useFetch() {
+          const {currentUser} = useAuth()
 
-      const history = useHistory();
+          const history = useHistory();
 
-      const [details, setDetails] = useState({});
+          const [details, setDetails] = useState({data: []})
 
-      useEffect(() => {
-              if (!currentUser) {
-                  history.push('/login');
+          async function getDeliveryDetails(){
+            if (!currentUser) {
+              history.push('/login');
               }
-              else{
-                firestore
-                  .collection("LaundryCart")
-                  .doc(currentUser.uid)
-                  .get()
-                  .then(snapshot => setDetails(snapshot.data()))
-                }
-            },[])
+            else{
+              await firestore
+                .collection("LaundryCart")
+                .doc(currentUser.uid)
+                .collection("DeliveryInformation")
+                .doc(currentUser.uid)
+                .get()
+                .then(snapshot => setDetails(snapshot.data()))
+              }
+          }
 
+        useEffect(async () => {
+              await getDeliveryDetails()
+          },[]);
+
+          return [details];
+
+        }
 
     const {laundryCart, dispatchLaundry, totalLaundryPrice, totalLaundryQty} = useContext(LaundryContext);
 
     const [loading, setLoading] = useState(true)
 
-
+    const [details] = useFetch();
 
 
   return (
@@ -44,17 +54,20 @@ export default function LaundryCart() {
     <Container className="d -flex align-items-center justify-our-content mt-5">
     <h1> Laundry Cart</h1>
     <div className='cart-container'>
-
             <Card className='mb-5'>
             <Card.Header><Card.Title>Customer Details</Card.Title></Card.Header>
             <Card.Body>
-            {details ?
-              (<div><span>Please make sure you have entered your address in your profile page before placing order.</span></div>) :
+            {!details ?
+              (<div><span className="text-danger">Please make sure you have entered your address by scheduling delivery on Laundry page.</span></div>) :
               (<div>
-                  {details.DeliveryInformation}
+                <div>{details.firstName} {details.lastName}</div>
+                <div>{details.phoneNumber}</div>
+                <div>{details.address}</div>
+                <div>{details.city}, {details.state}, {details.zip} </div>
               </div>)
             }
             </Card.Body>
+
             </Card>
             {
               laundryCart.length === 0 && <>
@@ -77,14 +90,14 @@ export default function LaundryCart() {
                       <Button variant="success">  <Icon icon={ic_add} size={24} /></Button>
                     </div>
 
-                    <div className='quantity'>{cart.qty}</div>
+                    <div className='quantity'>{cart.qty} lbs.</div>
 
                     <div className='dec' onClick={() => dispatchLaundry({ type: 'DEC', id: cart.id, cart })}>
                       <Button variant="success">  <Icon icon={ic_remove} size={24} /></Button>
                     </div>
 
                     <div className='cart-price'>
-                        $ {cart.totalProductPrice}
+                        $ {cart.totalProductPrice.toFixed(2)}
                     </div>
 
                     <div className='delete-btn' onClick={() => dispatchLaundry({ type: 'DELETE', id: cart.id, cart })}>
@@ -99,7 +112,7 @@ export default function LaundryCart() {
                 </div>
                 <div className='cart-summary-price'>
                     <span>Total Price</span>
-                    <span>{totalLaundryPrice}</span>
+                    <span>{totalLaundryPrice.toFixed(2)}</span>
                 </div>
                 <div className='cart-summary-price'>
                     <span>Total Qty</span>

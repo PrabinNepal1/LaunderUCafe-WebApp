@@ -24,7 +24,7 @@ export default function Admin() {
   }
 
   return (
-  <Container className="d -flex align-items-center justify-our-content mt-3">
+  <Container className="d -flex align-items-center justify-our-content mt-3 mb-3">
   {message && <Alert variant="success">{message}</Alert>}
   <Form className="w-50" onSubmit={handleAdminSubmit}>
   <Form.Group controlId="AdminEmail">
@@ -34,7 +34,7 @@ export default function Admin() {
     required
     />
     </Form.Group>
-    <div><Button variant="primary mb-3" type="submit">Make User an Admin</Button></div>
+    <div><Button variant="primary mt-2 mb-3" type="submit">Make User an Admin</Button></div>
   </Form>
 
   <Form className="w-50 mt-5" onSubmit={handleEmployeeSubmit}>
@@ -45,7 +45,7 @@ export default function Admin() {
     required
     />
     </Form.Group>
-    <div><Button variant="primary mb-3" type="submit">Make User an Employee</Button></div>
+    <div><Button variant="primary mt-2 mb-3" type="submit">Make User an Employee</Button></div>
   </Form>
 
   <div><Button variant="secondary mb-3">Manage User Account</Button></div>

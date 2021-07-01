@@ -8,11 +8,11 @@ import {useForm}  from "react-hook-form";
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-  firstname: yup
+  firstName: yup
   .string()
   .matches(/^([A-Za-z ]*)$/, "First name should not contain numbers or symbols.")
   .required("First name is required field"),
-  lastname: yup
+  lastName: yup
   .string()
   .matches(/^([A-Za-z ]*)$/, "Last name should not contain numbers or symbols.")
   .required("Last name is required field"),
@@ -43,16 +43,16 @@ export default function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const [uid, setUid] = useState()
-    const [firstname, setFirstName] = useState()
-    const [lastname, setLastName] = useState()
+    const [firstName, setfirstName] = useState()
+    const [lastName, setlastName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
-    const [phoneNo, setPhoneNo] = useState("N/A")
+    const [phoneNumber, setphoneNumber] = useState("N/A")
     const [address, setAddress] = useState("N/A")
-    const [cityname, setCityName] = useState("N/A")
-    const [statename, setStateName] = useState("N/A")
-    const [zip, setZip] = useState("N/A")
+    const [city, setcity] = useState("N/A")
+    const [state, setstate] = useState("N/A")
+    const [zipCode, setzipCode] = useState("N/A")
     const {signup} = useAuth()
     const [failed, setFailed] = useState()
     const [loading, setLoading] = useState(false)
@@ -69,18 +69,18 @@ export default function Signup() {
             .doc(cred.user.uid)
             .set({
               uid: cred.user.uid,
-              firstname,
-              lastname,
-              phoneNo,
+              firstName,
+              lastName,
+              phoneNumber,
               address,
-              cityname,
-              statename,
-              zip
+              city,
+              state,
+              zipCode
             })
             .then(() => {
               setUid('')
-              setFirstName('')
-              setLastName('')
+              setfirstName('')
+              setlastName('')
               setEmail('')
               setPassword('')
               setConfirmPassword('')
@@ -98,41 +98,41 @@ export default function Signup() {
     }
 
     return (
-    <Container className="d -flex align-items-center justify-our-content mt-5">
+    <Container className="d -flex align-items-center justify-our-content mt-5 mb-5">
     <Card>
       <Card.Body>
         <h2 className="text-center wb-4">Sign-Up</h2>
         {failed && <Alert variant="danger">{failed}</Alert>}
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group id="firstname">
-            <Form.Label>Firstname</Form.Label>
+          <Form.Group id="firstName">
+            <Form.Label>First Name</Form.Label>
             <Form.Control
             type="text"
             placeholder="Enter your first name"
-            ref={register} name="firstname"
-            value={firstname}
-            onChange = {e => setFirstName(e.currentTarget.value)}
+            ref={register} name="firstName"
+            value={firstName}
+            onChange = {e => setfirstName(e.currentTarget.value)}
             >
             </Form.Control>
-            <Form.Text className="text-danger" id="firstnameHelp" muted>{errors?.firstname?.message}</Form.Text>
+            <Form.Text className="text-danger" id="firstNameHelp" muted>{errors?.firstName?.message}</Form.Text>
           </Form.Group>
 
 
-          <Form.Group id="lastname">
-            <Form.Label>Lastname</Form.Label>
+          <Form.Group className="mt-2" id="lastName">
+            <Form.Label>Last Name</Form.Label>
             <Form.Control
             type="text"
             placeholder="Enter your last name"
-            name="lastname"
+            name="lastName"
             ref={register}
-            value={lastname}
-            onChange = {e => setLastName(e.currentTarget.value)}
+            value={lastName}
+            onChange = {e => setlastName(e.currentTarget.value)}
             >
             </Form.Control>
-            <Form.Text className="text-danger" id="lastnameHelp" muted>{errors?.lastname?.message}</Form.Text>
+            <Form.Text className="text-danger" id="lastNameHelp" muted>{errors?.lastName?.message}</Form.Text>
           </Form.Group>
 
-          <Form.Group id="email">
+          <Form.Group className="mt-2" id="email">
             <Form.Label>Email</Form.Label>
             <Form.Control
             type="email"
@@ -149,7 +149,7 @@ export default function Signup() {
             <Form.Text className="text-danger" id="emailHelp" muted>{errors?.email?.message}</Form.Text>
           </Form.Group>
 
-            <Form.Group id="paswword">
+            <Form.Group className="mt-2" id="paswword">
               <Form.Label>Password</Form.Label>
               <Form.Control
               type="password"
@@ -166,7 +166,7 @@ export default function Signup() {
               <Form.Text className="text-danger" id="passwordHelp" muted>{errors?.password?.message}</Form.Text>
             </Form.Group>
 
-            <Form.Group id="passwordConfirm">
+            <Form.Group className="mt-2" id="passwordConfirm">
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control
               type="password"
@@ -180,12 +180,12 @@ export default function Signup() {
               <Form.Text className="text-danger" id="passwordConfirmHelp" muted>{errors?.passwordConfirm?.message}</Form.Text>
             </Form.Group>
 
-            <Button disabled={loading} className="w-100" type="submit ">Sign-Up</Button>
+            <Button disabled={loading} className="w-100 mt-2" type="submit ">Sign-Up</Button>
         </Form>
       </Card.Body>
     </Card>
     <div className="w-100 text-center mt-2">
-      Already have an account?<Link to='/login'> Log In</Link>
+      Already have an account? <Link to='/login'> Log In</Link>
     </div>
     </Container>
   )

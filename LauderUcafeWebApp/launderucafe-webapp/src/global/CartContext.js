@@ -17,7 +17,6 @@ export const CartContextProvider = (props) => {
 
     useEffect(() => {
       if (currentUser) {
-        if(cart.shoppingCart.length > 0){
           async function SetCartItems(){
             await firestore
                   .collection("cart")
@@ -27,14 +26,11 @@ export const CartContextProvider = (props) => {
                     TotalCartQty: cart.totalQty,
                     TotalCartPrice: cart.totalPrice
                   })
-                }
-                SetCartItems();
-                localStorage.setItem("localCart", JSON.stringify(cart));
         }
+        SetCartItems();
+        localStorage.setItem("localCart", JSON.stringify(cart));
       }
-
-
-          },[cart])
+    },[cart])
 
     return (
       <CartContext.Provider value={{...cart, dispatch}}>

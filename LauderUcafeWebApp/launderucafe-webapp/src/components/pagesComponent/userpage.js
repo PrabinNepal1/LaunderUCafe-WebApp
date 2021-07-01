@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {firestore} from "../../firebase";
-import {Form, Button, Card, Container, Alert, Col, Modal, CardGroup} from 'react-bootstrap'
+import {Form, Button, Card, Container, Alert, Row, Col, Modal, CardGroup} from 'react-bootstrap'
 import {useAuth} from "../../contexts/AuthContext";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useForm}  from "react-hook-form";
@@ -22,28 +22,28 @@ const passwordSchema = yup.object().shape({
 })
 
 const profileSchema = yup.object().shape({
-  firstname: yup
+  firstName: yup
   .string()
   .matches(/^([A-Za-z ]*)$/, "First name should not contain numbers or symbols.")
   .required("Required"),
-  lastname: yup
+  lastName: yup
   .string()
   .matches(/^([A-Za-z ]*)$/, "Last name should not contain numbers or symbols.")
   .required("Required"),
-  phoneNo: yup
+  phoneNumber: yup
   .string()
   .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, "Phone number is not valid.")
   .required("Required"),
   address:yup
   .string()
   .required("Required"),
-  cityname:yup
+  city:yup
   .string()
   .required("Required"),
-  statename:yup
+  state:yup
   .string()
   .required("Required"),
-  zip:yup
+  zipCode:yup
   .string()
   .min(5)
   .max(5)
@@ -90,7 +90,7 @@ export default function UserPage() {
       resolver: yupResolver(profileSchema),
     })
 
-    const [userData, setUserData] = useState({firstname:'',lastname:'', phoneNo:'', address:'',cityname:'',statename:'',zip:''})
+    const [userData, setUserData] = useState({firstName:'',lastName:'', phoneNumber:'', address:'',city:'',state:'',zipCode:''})
 
 
     const handleInputChange = e => {
@@ -108,13 +108,13 @@ const onSubmitProfile = (data, e) =>{
         .collection("users")
         .doc(currentUser.uid)
         .update({
-          firstname:userData.firstname,
-          lastname:userData.lastname,
-          phoneNo:userData.phoneNo,
+          firstName:userData.firstName,
+          lastName:userData.lastName,
+          phoneNumber:userData.phoneNumber,
           address:userData.address,
-          cityname:userData.cityname,
-          statename:userData.statename,
-          zip:userData.zip
+          city:userData.city,
+          state:userData.state,
+          zipCode:userData.zipCode
         }).then(() => {
             setMessage("Profile Updated Successfully!")
           })
@@ -122,6 +122,7 @@ const onSubmitProfile = (data, e) =>{
         setError(error.message);
       })
       setLoading(false)
+      window.location.reload(false);
     }
 
 
@@ -148,14 +149,14 @@ const onSubmitProfile = (data, e) =>{
       <Card>
         <Card.Header as="h5"><i className="far fa-address-card"></i> Profile</Card.Header>
         <Card.Body>
-          <Card.Title><i className="fas fa-user"></i> {details.firstname} {details.lastname}</Card.Title>
+          <Card.Title><i className="fas fa-user"></i> {details.firstName} {details.lastName}</Card.Title>
             <Card.Title><i className="fas fa-envelope-open-text"></i> Your Email: {currentUser.email}</Card.Title>
-            <Card.Title><i className="fas fa-phone"></i> Your Phone No.: {details.phoneNo}</Card.Title>
+            <Card.Title><i className="fas fa-phone"></i> Your Phone No.: {details.phoneNumber}</Card.Title>
             <Card.Title><i className="fas fa-map-marker-alt"></i> Your Address</Card.Title>
               <Card.Title className="px-3 mx-3">Address: {details.address}</Card.Title>
-              <Card.Title className="px-3 mx-3">City: {details.cityname}</Card.Title>
-              <Card.Title className="px-3 mx-3">State: {details.statename}</Card.Title>
-              <Card.Title className="px-3 mx-3">Zip: {details.zip}</Card.Title>
+              <Card.Title className="px-3 mx-3">City: {details.city}</Card.Title>
+              <Card.Title className="px-3 mx-3">State: {details.state}</Card.Title>
+              <Card.Title className="px-3 mx-3">zipCode: {details.zipCode}</Card.Title>
           <Card.Text as="h6" className="mt-3">
               Update Your Details!
           </Card.Text>
@@ -182,35 +183,35 @@ const onSubmitProfile = (data, e) =>{
           {error && <Alert variant="danger">{error}</Alert>}
           {message && <Alert variant="success">{message}</Alert>}
           <Form className="mx-3 pb-3" onSubmit={handleSubmitProfile(onSubmitProfile)}>
-          <Form.Row>
-            <Form.Group as={Col} id="firstname">
+          <Row>
+            <Form.Group as={Col} id="firstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control
               type="text"
-              name="firstname"
+              name="firstName"
               onChange = {handleInputChange}
               ref={registerProfile}
               />
-              <Form.Text className="text-danger" id="firstnameHelp" muted>{errorsProfile?.firstname?.message}</Form.Text>
+              <Form.Text className="text-danger" id="firstNameHelp" muted>{errorsProfile?.firstName?.message}</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridLastName">
+            <Form.Group as={Col} controlId="formGridlastName">
               <Form.Label>Last Name</Form.Label>
-              <Form.Control type="lastname"
-              name="lastname"
+              <Form.Control type="lastName"
+              name="lastName"
               onChange = {handleInputChange}
               ref={registerProfile}
               />
-              <Form.Text className="text-danger" id="lastname" muted>{errorsProfile?.lastname?.message}</Form.Text>
+              <Form.Text className="text-danger" id="lastName" muted>{errorsProfile?.lastName?.message}</Form.Text>
             </Form.Group>
-          </Form.Row>
+          </Row>
 
-          <Form.Group controlId="formGridPhoneNo">
+          <Form.Group controlId="formGridphoneNumber">
             <Form.Label>Phone No.</Form.Label>
-            <Form.Control placeholder="xxx-xxx-xxxx" name="phoneNo"
+            <Form.Control placeholder="xxx-xxx-xxxx" name="phoneNumber"
             onChange = {handleInputChange}
             ref={registerProfile}/>
-            <Form.Text className="text-danger" id="phoneNo" muted>{errorsProfile?.phoneNo?.message}</Form.Text>
+            <Form.Text className="text-danger" id="phoneNumber" muted>{errorsProfile?.phoneNumber?.message}</Form.Text>
           </Form.Group>
 
           <Form.Group controlId="formGridAddress">
@@ -224,15 +225,15 @@ const onSubmitProfile = (data, e) =>{
           <Form.Row>
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City</Form.Label>
-              <Form.Control name="cityname"
+              <Form.Control name="city"
               onChange = {handleInputChange}
               ref={registerProfile}/>
-              <Form.Text className="text-danger" id="cityname" muted>{errorsProfile?.cityname?.message}</Form.Text>
+              <Form.Text className="text-danger" id="city" muted>{errorsProfile?.city?.message}</Form.Text>
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>State</Form.Label>
-              <Form.Control as="select" name="statename"  onChange = {handleInputChange} ref={registerProfile}>
+              <Form.Control as="select" name="state"  onChange = {handleInputChange} ref={registerProfile}>
                   <option value="N/A">Choose...</option>
                   <option value="AL">Alabama</option>
                   <option value="AK">Alaska</option>
@@ -286,16 +287,16 @@ const onSubmitProfile = (data, e) =>{
                   <option value="WI">Wisconsin</option>
                   <option value="WY">Wyoming</option>
               </Form.Control>
-              <Form.Text className="text-danger" id="statename" muted>{errorsProfile?.statename?.message}</Form.Text>
+              <Form.Text className="text-danger" id="state" muted>{errorsProfile?.state?.message}</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridZip">
-              <Form.Label>Zip</Form.Label>
-              <Form.Control name="zip"
+            <Form.Group as={Col} controlId="formGridzipCode">
+              <Form.Label>zip Code</Form.Label>
+              <Form.Control name="zipCode"
               onChange = {handleInputChange}
               ref={registerProfile}
               />
-              <Form.Text className="text-danger" id="lastname" muted>{errorsProfile?.streetname?.message}</Form.Text>
+              <Form.Text className="text-danger" id="lastName" muted>{errorsProfile?.streetname?.message}</Form.Text>
             </Form.Group>
           </Form.Row>
 

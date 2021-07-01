@@ -5,33 +5,35 @@ import {useAuth} from "../../../contexts/AuthContext";
 
 export default function Employee() {
 
-  const{currentUser} = useAuth()
+  const{employee, currentUser} = useAuth()
   const orderDetails = [];
 
   async function viewOrder(){
     await firestore.collection('orderDetails').get()
     .then(querySnapshot => {
       querySnapshot.docs.forEach(doc => {
-      orderDetails.push({id: currentUser.uid, ...doc.data()});
+      orderDetails.push(doc.id, "=>", doc.data());
     });
   });
   }
 
   useEffect(()=>{
     viewOrder()
-    console.log(orderDetails);
+    console.log(orderDetails)
   },[])
 
   return (
-    <Container className="d -flex align-items-center justify-our-content mt-3">
+    <Container className="d -flex align-items-center justify-our-content mt-3 mb-3">
     <Card>
     <Card.Header as="h3">Orders</Card.Header>
-    {orderDetails.map((product) =>
-      <Card.Body key={product.id}>
+    {orderDetails &&
+      <Card.Body >
+      <Button className="mb-3" variant="primary">Accept Orders</Button>
+      <Button className="mx-3 mb-3" variant="danger">Completed</Button>
       <ListGroup className="list-group-flush">
-            <div id="ItemHeader">{JSON.stringify(product.shoppingCart)}</div>
+            <div id="ItemHeader">{JSON.stringify(orderDetails)}</div>
       </ListGroup>
-      </Card.Body>)}
+      </Card.Body>}
       </Card>
 
 

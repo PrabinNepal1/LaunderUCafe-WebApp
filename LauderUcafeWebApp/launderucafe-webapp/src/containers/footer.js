@@ -16,7 +16,6 @@ export function FooterContainer() {
                 <Footer.Title>Services</Footer.Title>
                     <Footer.Link href="#">Cafe</Footer.Link>
                     <Footer.Link href="#">Schedule Laundry Delivery</Footer.Link>
-                    <Footer.Link href="#">Schedule Laundry Pick Up</Footer.Link>
                 </Footer.Column>
                 <Footer.Column>
                 <Footer.Title>Contact Us</Footer.Title>

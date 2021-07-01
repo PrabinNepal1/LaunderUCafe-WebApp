@@ -1,18 +1,15 @@
 import React from 'react';
 import {Container} from "react-bootstrap";
+import  HeroElement from "./../bannerComponent/HeroElement.js"
 
 function Homepage() {
 
   //const {currentUser} = useAuth()
     return (
-    <Container className="d -flex align-items-center justify-our-content mt-3">
     <div>
-    <h1>
-    This is Home Page.
-    </h1>
-
+    <HeroElement />
     </div>
-    </Container>
+
    );
 }
 export default Homepage;

@@ -40,6 +40,7 @@ export const CartReducer = (state, action) => {
               product= action.product;
               product['qty']=1;
               product['totalProductPrice']= product.cost * product.qty;
+              product.totalProductPrice = Number(product.totalProductPrice.toFixed(2))
               updatedQty = totalQty + 1;
               updatedPrice = totalPrice + product.cost;
               toast.dark('Item added to your cart', {
@@ -53,7 +54,7 @@ export const CartReducer = (state, action) => {
                   toastId:1,
               });
               return{
-                  shoppingCart: [product, ...shoppingCart], totalPrice: updatedPrice, totalQty: updatedQty
+                  shoppingCart: [product, ...shoppingCart], totalPrice: Number(updatedPrice.toFixed(2)), totalQty: updatedQty
               }
           }
           break;
@@ -62,12 +63,13 @@ export const CartReducer = (state, action) => {
             product = action.cart;
             ++product.qty;
             product.totalProductPrice = product.qty * product.cost;
+            product.totalProductPrice = Number(product.totalProductPrice.toFixed(2))
             updatedQty = totalQty + 1;
             updatedPrice = totalPrice + product.cost;
             index = shoppingCart.findIndex(cart => cart.id === action.id);
             shoppingCart[index] = product;
             return {
-                shoppingCart: [...shoppingCart], totalPrice: updatedPrice, totalQty: updatedQty
+                shoppingCart: [...shoppingCart], totalPrice: Number(updatedPrice.toFixed(2)), totalQty: updatedQty
             }
             break;
 
@@ -76,12 +78,13 @@ export const CartReducer = (state, action) => {
                 if (product.qty > 1) {
                     --product.qty;
                     product.totalProductPrice = product.qty * product.cost;
+                    product.totalProductPrice = Number(product.totalProductPrice.toFixed(2))
                     updatedPrice = totalPrice - product.cost;
                     updatedQty = totalQty - 1;
                     index = shoppingCart.findIndex(cart => cart.id === action.id);
                     shoppingCart[index] = product;
                     return {
-                      shoppingCart: [...shoppingCart], totalPrice: updatedPrice, totalQty: updatedQty
+                      shoppingCart: [...shoppingCart], totalPrice: Number(updatedPrice.toFixed(2)), totalQty: updatedQty
                     }
                 }
                 else {
@@ -95,7 +98,7 @@ export const CartReducer = (state, action) => {
                 updatedQty = totalQty - product.qty;
                 updatedPrice = totalPrice - product.qty * product.cost;
                 return {
-                    shoppingCart: [...filtered], totalPrice: updatedPrice, totalQty: updatedQty
+                    shoppingCart: [...filtered], totalPrice: Number(updatedPrice.toFixed(2)), totalQty: updatedQty
                 }
                 break;
 

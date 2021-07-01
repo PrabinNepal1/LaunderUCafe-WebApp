@@ -11,28 +11,28 @@ import LaundryCart from '../services/laundryCart.js';
 import { useHistory } from 'react-router-dom'
 
 const schema = yup.object().shape({
-  firstname: yup
+  firstName: yup
   .string()
   .matches(/^([A-Za-z ]*)$/, "First name should not contain numbers or symbols.")
   .required("Required"),
-  lastname: yup
+  lastName: yup
   .string()
   .matches(/^([A-Za-z ]*)$/, "Last name should not contain numbers or symbols.")
   .required("Required"),
-  phoneNo: yup
+  phoneNumber: yup
   .string()
   .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, "Phone number is not valid.")
   .required("Required"),
   address:yup
   .string()
   .required("Required"),
-  cityname:yup
+  city:yup
   .string()
   .required("Required"),
-  statename:yup
+  state:yup
   .string()
   .required("Required"),
-  zip:yup
+  zipCode:yup
   .string()
   .min(5)
   .max(5)
@@ -71,8 +71,18 @@ export default function Laundry() {
     const [details, setDetails] = useState([])
     const [dbError, setDbError] = useState('')
     const [userData, setUserData] = useState([])
+    const [info, setInfo] = useState([])
 
     const {dispatchLaundry, totalLaundryQty} = useContext(LaundryContext);
+
+    async function userDetails(){
+        await  firestore
+          .collection('users')
+          .doc(currentUser.uid)
+          .get()
+          .then(snapshot => setDetails(snapshot.data()))
+        }
+
 
     useEffect(()=>{
              firestore
@@ -84,6 +94,17 @@ export default function Laundry() {
                  }))
                   setLaundryItems(newLaundryDetails)
               })
+               function userDetails(){
+                if(currentUser){
+                   firestore
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .get()
+                    .then(snapshot => setDetails(snapshot.data()))
+                  }
+                }
+
+                  userDetails()
            },[])
 
 
@@ -102,8 +123,17 @@ export default function Laundry() {
           firestore
                 .collection("LaundryCart")
                 .doc(currentUser.uid)
+                .collection("DeliveryInformation")
+                .doc(currentUser.uid)
                 .set({
-                    DeliveryInformation:userData
+                    firstName:userData["firstName"],
+                    lastName:userData["lastName"],
+                    phoneNumber:userData["phoneNumber"],
+                    address:userData["address"],
+                    city:userData["city"],
+                    state:userData["state"],
+                    zipCode:userData["zipCode"]
+
                 },{merge:true}).then(() => {
                     setMessage("Your information has been added to your Cart.")
                   })
@@ -113,14 +143,38 @@ export default function Laundry() {
               setLoading(false)
             }
 
+      async function setDeliveryAddress(){
+        setLoading(true)
+        setDbError("")
+        setMessage("")
+        await firestore
+                .collection("LaundryCart")
+                .doc(currentUser.uid)
+                .collection("DeliveryInformation")
+                .doc(currentUser.uid)
+                .set({
+                  firstName:details.firstName,
+                  lastName:details.lastName,
+                  phoneNumber:details.phoneNumber,
+                  address:details.address,
+                  city:details.city,
+                  state:details.state,
+                  zipCode:details.zipCode
+                },{merge:true}).then(() => {
+                    setMessage("Your information has been added to your Cart.")
+                  })
+              .catch( error => {
+                setDbError(error.message);
+              })
+              setLoading(false)
+        }
+
+
+
       return (
-        <Container className="d -flex align-items-center justify-our-content mt-2">
+        <Container className="d -flex align-items-center justify-our-content mt-2 mb-5">
         {dbError && <Alert variant="danger">{dbError}</Alert>}
-        <Row>
             <div id="laundryServices_block">
-            <div id="schedule_container">
-            <Button variant="secondary" className="customAddItem w-100">Drop-Off Laundry</Button>
-            </div>
               <div id="delieryAddress_container">
                 <Button variant="secondary" className="customAddItem w-100" onClick={handleShowUpdate}>Schedule Delivery</Button>
               </div>
@@ -145,48 +199,48 @@ export default function Laundry() {
               </ListGroup>
               </Card.Body>)}
               </Card>
-          </Row>
 
 
         <Modal aria-labelledby="contained-modal-title-vcenter" show={showUpdate} onHide={handleCloseUpdate} centered>
           <Modal.Header closeButton>
-            <Modal.Title>Enter Your Address</Modal.Title>
+            <Modal.Title>Update Your Delivery Info</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {error && <Alert variant="danger">{error}</Alert>}
             {message && <Alert variant="success">{message}</Alert>}
-            <InputGroup.Prepend>
-            <InputGroup.Checkbox/> <span> Use the same address as your profile</span>
-            </InputGroup.Prepend>
+
             <Form className="mx-3 pb-3" onSubmit={handleSubmit(onSubmit)}>
-            <Form.Row>
-            <Form.Group as={Col} id="firstname">
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check className="text-success" type="checkbox" label="Use same information stored in our system" onClick={setDeliveryAddress}/>
+            </Form.Group>
+            <Row>
+            <Form.Group as={Col} id="firstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control
               type="text"
-              name="firstname"
+              name="firstName"
               onChange = {handleInputChange}
               ref={register}
               />
-              <Form.Text className="text-danger" id="firstnameHelp" muted>{errors?.firstname?.message}</Form.Text>
+              <Form.Text className="danger" id="firstNameHelp" muted>{errors?.firstName?.message}</Form.Text>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridLastName">
+            <Form.Group as={Col} controlId="formGridlastName">
               <Form.Label>Last Name</Form.Label>
-              <Form.Control type="lastname"
-              name="lastname"
+              <Form.Control type="lastName"
+              name="lastName"
               onChange = {handleInputChange}
               ref={register}
               />
-              <Form.Text className="text-danger" id="lastname" muted>{errors?.lastname?.message}</Form.Text>
+              <Form.Text className="text-danger" id="lastName" muted>{errors?.lastName?.message}</Form.Text>
             </Form.Group>
-          </Form.Row>
-            <Form.Group controlId="formGridPhoneNo">
+          </Row>
+            <Form.Group controlId="formGridphoneNumber">
               <Form.Label>Phone No.</Form.Label>
-              <Form.Control placeholder="xxx-xxx-xxxx" name="phoneNo"
+              <Form.Control placeholder="xxx-xxx-xxxx" name="phoneNumber"
               onChange = {handleInputChange}
               ref={register}/>
-              <Form.Text className="text-danger" id="phoneNo" muted>{errors?.phoneNo?.message}</Form.Text>
+              <Form.Text className="text-danger" id="phoneNumber" muted>{errors?.phoneNumber?.message}</Form.Text>
             </Form.Group>
 
             <Form.Group controlId="formGridAddress">
@@ -194,21 +248,21 @@ export default function Laundry() {
               <Form.Control placeholder="Apartment, studio, or floor" name="address"
               onChange = {handleInputChange}
               ref={register}/>
-              <Form.Text className="text-danger" id="streetname" muted>{errors?.streetname?.message}</Form.Text>
+              <Form.Text className="text-danger" id="address" muted>{errors?.address?.message}</Form.Text>
             </Form.Group>
 
             <Form.Row>
               <Form.Group as={Col} controlId="formGridCity">
                 <Form.Label>City</Form.Label>
-                <Form.Control name="cityname"
+                <Form.Control name="city"
                 onChange = {handleInputChange}
                 ref={register}/>
-                <Form.Text className="text-danger" id="cityname" muted>{errors?.cityname?.message}</Form.Text>
+                <Form.Text className="text-danger" id="city" muted>{errors?.city?.message}</Form.Text>
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridState">
                 <Form.Label>State</Form.Label>
-                <Form.Control as="select" name="statename"  onChange = {handleInputChange} ref={register}>
+                <Form.Control as="select" name="state"  onChange = {handleInputChange} ref={register}>
                     <option value="N/A">Choose...</option>
                     <option value="AL">Alabama</option>
                     <option value="AK">Alaska</option>
@@ -262,20 +316,20 @@ export default function Laundry() {
                     <option value="WI">Wisconsin</option>
                     <option value="WY">Wyoming</option>
                 </Form.Control>
-                <Form.Text className="text-danger" id="statename" muted>{errors?.statename?.message}</Form.Text>
+                <Form.Text className="text-danger" id="state" muted>{errors?.state?.message}</Form.Text>
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridZip">
-                <Form.Label>Zip</Form.Label>
-                <Form.Control name="zip"
+              <Form.Group as={Col} controlId="formGridzipCode">
+                <Form.Label>zip Code</Form.Label>
+                <Form.Control name="zipCode"
                 onChange = {handleInputChange}
                 ref={register}
                 />
-                <Form.Text className="text-danger" id="zip" muted>{errors?.streetname?.message}</Form.Text>
+                <Form.Text className="text-danger" id="zipCode" muted>{errors?.zipCode?.message}</Form.Text>
               </Form.Group>
             </Form.Row>
 
-            <Button disabled={loading} variant="primary" type="submit">
+            <Button disabled={loading} variant="primary mt-2" type="submit">
               Submit
             </Button>
           </Form>

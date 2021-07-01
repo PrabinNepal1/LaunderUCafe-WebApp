@@ -27,7 +27,7 @@ function useFoodDetails(){
       const {dispatch} = useContext(CartContext);
 
       return (
-        <Container className="d -flex align-items-center justify-our-content mt-5">
+        <Container className="d -flex align-items-center justify-our-content mt-5 mb-5">
 
           <Card>
           <Card.Header as="h3"><span class="fas fa-utensils"></span> Cafe Menu</Card.Header>

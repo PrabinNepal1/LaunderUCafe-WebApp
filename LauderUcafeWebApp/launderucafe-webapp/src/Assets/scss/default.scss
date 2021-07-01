@@ -265,6 +265,15 @@ button:disabled {
   cursor: default;
 }
 
+nav ul li a{
+  text-decoration: none !important;
+  color:#ffffff;
+  &:hover{
+    color:blueviolet !important;
+  }
+}
+
+
 /* spinner/processing state, errors */
 .spinner,
 .spinner:before,
@@ -338,7 +347,11 @@ button:disabled {
 .customAddItem{
   background-color: blueviolet !important;
   border: #fff !important;
-  border-radius: 10%;
+  border-radius: 10px !important;
+  text-decoration: none;
+  a:hover{
+    color:white !important;
+  }
 }
 
 //laundryServices
@@ -346,26 +359,22 @@ button:disabled {
 #laundryServices_block{
   width:100%;
   height:50px;
-  text-align: center;
   padding-top:10px;
   padding-bottom:10px;
-}
-
-#schedule_container{
-  width:45%;
-  float:left;
+  background-color: black;
 }
 
 #delieryAddress_container{
-  width:45%;
-  float:right;
+  margin:auto;
+  width:50%;
 }
 
 //Toolbar
 .tool_bar {
-  display: inline-block;
+  display:inline-flex;
+  flex-direction: row-reverse;
   width: 100%;
-  background-color: #212529;
+  background-color: #363a3f;
   height: auto;
   margin: 0 auto;
   padding: 0 10px;
@@ -383,7 +392,6 @@ button:disabled {
       display: inline-block;
 
       a {
-        display: block;
         text-decoration: none;
         font-size: 1em;
         line-height: 1;
@@ -393,7 +401,6 @@ button:disabled {
 
         &:hover {
               text-decoration: none;
-              background-color: rgba(255,255,255,.6);
               color: purple;
               transition: all .4s ease-in-out;
         }
@@ -402,4 +409,77 @@ button:disabled {
     }
   }
 
+}
+
+//HomePage
+
+.HeroContainer{
+  background: #0c0c0c;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 30px;
+  height: 800px;
+  position: relative;
+  z-index:1;
+
+  .HeroBg{
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:100%;
+    overflow: hidden;
+  }
+
+   img{
+     height:100%;
+     width:100%;
+   }
+
+   .HeroContent{
+     z-index:3;
+     max-width:1200px;
+     position:absolute;
+     padding: 8px 24px;
+     display:flex;
+     flex-direction:column;
+     align-items: center;
+   }
+
+   .HeroH1{
+     color:#ffffff;
+     font-size:48px;
+     text-align:center;
+
+     @media screen and (max-width: 768px){
+       font-size:40px;
+     }
+
+     @media screen and (max-width: 480px){
+       font-size:32px;
+     }
+   }
+   .HeroP{
+     margin-top:24px;
+     color: #ffffff;
+     font-size:24px;
+     text-align:center;
+     max-width: 600px;
+     text-shadow: 1px 1px Black;
+
+     @media screen and (max-width: 768px){
+       font-size:24px;
+     }
+
+     @media screen and (max-width: 480px){
+       font-size:18px;
+     }
+   }
+  .heroLink{
+    text-decoration: none;
+    color:white;
+  }
 }

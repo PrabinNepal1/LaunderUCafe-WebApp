@@ -11,7 +11,6 @@ export const LaundryReducer = (state, action) => {
 
     const {laundryCart, totalLaundryPrice, totalLaundryQty} = state;
 
-    let info;
     let product;
     let index;
     let updatedPrice;
@@ -40,6 +39,7 @@ export const LaundryReducer = (state, action) => {
               product= action.product;
               product['qty']=1;
               product['totalProductPrice']= product.cost * product.qty;
+              product.totalProductPrice = Number(product.totalProductPrice.toFixed(2))
               updatedQty = totalLaundryQty + 1;
               updatedPrice = totalLaundryPrice + product.cost;
               toast.dark('Item added to your cart', {
@@ -53,7 +53,7 @@ export const LaundryReducer = (state, action) => {
                   toastId:1,
               });
               return{
-                  laundryCart: [product, ...laundryCart], totalLaundryPrice: updatedPrice, totalLaundryQty: updatedQty
+                  laundryCart: [product, ...laundryCart], totalLaundryPrice: Number(updatedPrice.toFixed(2)), totalLaundryQty: updatedQty
               }
           }
           break;
@@ -62,12 +62,13 @@ export const LaundryReducer = (state, action) => {
             product = action.cart;
             ++product.qty;
             product.totalProductPrice = product.qty * product.cost;
+            product.totalProductPrice = Number(product.totalProductPrice.toFixed(2))
             updatedQty = totalLaundryQty + 1;
             updatedPrice = totalLaundryPrice + product.cost;
             index = laundryCart.findIndex(cart => cart.id === action.id);
             laundryCart[index] = product;
             return {
-                laundryCart: [...laundryCart], totalLaundryPrice: updatedPrice, totalLaundryQty: updatedQty
+                laundryCart: [...laundryCart], totalLaundryPrice: Number(updatedPrice.toFixed(2)), totalLaundryQty: updatedQty
             }
             break;
 
@@ -76,12 +77,13 @@ export const LaundryReducer = (state, action) => {
                 if (product.qty > 1) {
                     --product.qty;
                     product.totalProductPrice = product.qty * product.cost;
+                    product.totalProductPrice = Number(product.totalProductPrice.toFixed(2))
                     updatedPrice = totalLaundryPrice - product.cost;
                     updatedQty = totalLaundryQty - 1;
                     index = laundryCart.findIndex(cart => cart.id === action.id);
                     laundryCart[index] = product;
                     return {
-                      laundryCart: [...laundryCart], totalLaundryPrice: updatedPrice, totalLaundryQty: updatedQty
+                      laundryCart: [...laundryCart], totalLaundryPrice: Number(updatedPrice.toFixed(2)), totalLaundryQty: updatedQty
                     }
                 }
                 else {
@@ -95,7 +97,7 @@ export const LaundryReducer = (state, action) => {
                 updatedQty = totalLaundryQty - product.qty;
                 updatedPrice = totalLaundryPrice - product.qty * product.cost;
                 return {
-                    laundryCart: [...filtered], totalLaundryPrice: updatedPrice, totalLaundryQty: updatedQty
+                    laundryCart: [...filtered], totalLaundryPrice: Number(updatedPrice.toFixed(2)), totalLaundryQty: updatedQty
                 }
                 break;
 
